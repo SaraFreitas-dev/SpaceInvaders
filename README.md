@@ -7,7 +7,7 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://snipboard.io/SN6Cvn.jpg" alt="project-screenshot" width="400" height="400/">
+<img src="https://snipboard.io/SN6Cvn.jpg" alt="project-screenshot" width="550" height="400/">
 <p></p>
 <h2>🛠️ Installation Steps:</h2>
 
