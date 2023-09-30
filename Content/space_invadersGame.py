@@ -13,6 +13,13 @@ pygame.mixer.music.play(-1)  # Continuous playback
 shoot_sound = pygame.mixer.Sound("Music/shoot.mp3")
 shoot_sound.set_volume(0.4) 
 
+# Load win/loose/loose_health sound effect
+win_sound = pygame.mixer.Sound("Music/win.mp3")
+lose_sound = pygame.mixer.Sound("Music/lost.mp3")
+health_sound = pygame.mixer.Sound("Music/lost_health.mp3")
+
+
+
 # Surface to draw the game
 window_height = 600
 window_width = 800
@@ -61,6 +68,8 @@ class invader_bullet(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, player_group, False):
             self.kill()
             player.health_remaining -= 10
+            if player.health_remaining >= 10:  #to only play the sound unless the shoot is the game over scene
+                health_sound.play()
 
 
 # Define the object and its type
@@ -104,6 +113,8 @@ class Player(pygame.sprite.Sprite):
         self.health_start = 50
         self.health_remaining = 50
 
+
+
     # KEY COMMANDS
     def update(self):
         speed = 2
@@ -111,6 +122,8 @@ class Player(pygame.sprite.Sprite):
         current_time = pygame.time.get_ticks()
         key = pygame.key.get_pressed()
         gameover = 0
+
+
 
         # Draw health
         pygame.draw.rect(screen, (0, 0, 0), (self.rect.x, self.rect.bottom, self.rect.width, 10))
@@ -158,10 +171,12 @@ player_group.add(player)
 
 
 game = True
-
+win_sound_played = False
+lose_sound_played = False
 
 # Main game loop
 while game:
+
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -203,8 +218,16 @@ while game:
     
     if game_over == 1:
         screen.blit(win_image, (0, 0))
+        if not win_sound_played:
+            win_sound.play()  # Play the win sound
+            win_sound_played = True
+
     elif game_over == 2:
         screen.blit(game_over_image, (0, 0))
+        if not lose_sound_played:
+            lose_sound.play()  # Play the lose sound
+            lose_sound_played = True
+
 
     # Updates the content state of the screen
     pygame.display.update()
