@@ -1,13 +1,9 @@
 <h1 align="center" id="title">Space Invaders</h1>
 <br>
 
-<p id="description">Classic Space invaders game developed only in Python and Pygame. 
-<br>
-The game is played as the original: Space to shot against the invaders left and right to move.
-</p>
-<p>
-Your health bar is set for 5 lifes. Feel free to play and have fun !
-</p>
+<p id="description">Classic Space invaders game developed only in Python and Pygame.</p>
+<p>The game is played as the original: Space to shot against the invaders left and right to move.</p>
+<p>Your health bar is set for 5 lifes. Feel free to play and have fun !</p>
 
 <h2>Project Screenshots:</h2>
 
