@@ -1,7 +1,17 @@
 import pygame
 import random
+import pygame.mixer
 
 pygame.init()
+pygame.mixer.init()
+
+# Load and play background music
+pygame.mixer.music.load("Music/Crusher_Boss.mp3")
+pygame.mixer.music.play(-1)  # Continuous playback
+
+# Load shooting sound effect
+shoot_sound = pygame.mixer.Sound("Music/shoot.mp3")
+shoot_sound.set_volume(0.4) 
 
 # Surface to draw the game
 window_height = 600
@@ -121,6 +131,8 @@ class Player(pygame.sprite.Sprite):
             bullet = player_bullet(self.rect.centerx, self.rect.top)
             playerBullet_group.add(bullet)
             self.last_shot = pygame.time.get_ticks()
+            # Play the shooting sound effect
+            shoot_sound.play()
 
         return gameover
 
