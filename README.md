@@ -2,7 +2,7 @@
 <br>
 
 <p id="description">Classic Space invaders game developed only in Python and Pygame.</p>
-<p>The game is played as the original: Space to shot against the invaders left and right to move.</p>
+<p>The game is played as the original: Space to shot against the invaders, press left and right to move.</p>
 <p>Your health bar is set for 5 lifes. Feel free to play and have fun !</p>
 
 <h2>Project Screenshots:</h2>
