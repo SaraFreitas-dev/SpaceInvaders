@@ -173,16 +173,14 @@ player_group.add(player)
 
 
 # Define font and colors for text
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font(None, 40)
 text_color = (255, 255, 255)
 
-# Create text surfaces
-you_won_text = font.render("You won !!", True, text_color)
-game_over_text = font.render("Game Over", True, text_color)
+
 
 # Create button rectangles
-restart_button = pygame.Rect(300, 400, 200, 50)
-quit_button = pygame.Rect(300, 500, 200, 50)
+restart_button = pygame.Rect(100, 500, 200, 45)  # Left side
+quit_button = pygame.Rect(500, 500, 200, 45)    # Right side
 
 
 
@@ -200,24 +198,25 @@ while game:
 # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            game = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if game_over == 1 or game_over == 2:
-                # Check if the mouse click is inside the restart or quit buttons
-                if restart_button.collidepoint(event.pos):
-                    # Reset the entire game
-                    create_invaders()
-                    player = Player(int(window_width / 2), window_height - 80)
-                    player_group.empty()  # Clear player group
-                    player_group.add(player)
-                    playerBullet_group.empty()  # Clear player bullet group
-                    invaderBullet_group.empty()  # Clear invader bullet group
-                    player.health_remaining = player.health_start
-                    timer = pygame.time.get_ticks()
-                    game_over = 0
-                    initial_state = True  # Set the game state to initial
-                elif quit_button.collidepoint(event.pos):
-                    game = False  # Quit the game
+            game = False  # Quit the game when the window is closed
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if restart_button.collidepoint(event.pos):
+                # Clear existing invaders
+                invaders_group.empty()
+                
+                # Reset the entire game
+                create_invaders()
+                player = Player(int(window_width / 2), window_height - 80)
+                player_group.empty()  # Clear player group
+                player_group.add(player)
+                playerBullet_group.empty()  # Clear player bullet group
+                invaderBullet_group.empty()  # Clear invader bullet group
+                player.health_remaining = player.health_start
+                timer = pygame.time.get_ticks()
+                game_over = 0
+                
+            elif quit_button.collidepoint(event.pos):
+                game = False  # Quit the game
 
 
     # Speed of invaders movement
@@ -237,6 +236,8 @@ while game:
         if (seconds > 2):
             create_invader_bullet()
             timer = pygame.time.get_ticks()
+        win_sound_played = False
+        lose_sound_played = False
 
         invaders_group.update()
         player_group.update()
@@ -264,9 +265,9 @@ while game:
         pygame.draw.rect(screen, (0, 0, 128), quit_button)
 
         # Create text for buttons
-        restart_text = font.render("Restart Game", True, (255, 255, 255))
-        quit_text = font.render("Quit", True, (255, 255, 255))
-
+        pygame.draw.rect(screen, (255, 0, 255), restart_button)
+        pygame.draw.rect(screen, (255, 0, 255), quit_button)
+        
         # Center text on buttons
         restart_text_rect = restart_text.get_rect(center=restart_button.center)
         quit_text_rect = quit_text.get_rect(center=quit_button.center)
@@ -275,7 +276,7 @@ while game:
         screen.blit(restart_text, restart_text_rect)
         screen.blit(quit_text, quit_text_rect)
 
-    elif game_over == 2:
+    elif game_over == 2:    
         screen.blit(game_over_image, (0, 0))
         if not lose_sound_played:
             lose_sound.play()  # Play the lose sound
@@ -283,8 +284,8 @@ while game:
 
 
         # Create restart and quit buttons
-        pygame.draw.rect(screen, (0, 0, 128), restart_button)
-        pygame.draw.rect(screen, (0, 0, 128), quit_button)
+        pygame.draw.rect(screen, (100, 100, 100), restart_button)
+        pygame.draw.rect(screen, (100, 100, 100), quit_button)
 
         # Create text for buttons
         restart_text = font.render("Restart Game", True, (255, 255, 255))
