@@ -170,17 +170,55 @@ player_group.add(player)
 
 
 
+
+
+# Define font and colors for text
+font = pygame.font.Font(None, 36)
+text_color = (255, 255, 255)
+
+# Create text surfaces
+you_won_text = font.render("You won !!", True, text_color)
+game_over_text = font.render("Game Over", True, text_color)
+
+# Create button rectangles
+restart_button = pygame.Rect(300, 400, 200, 50)
+quit_button = pygame.Rect(300, 500, 200, 50)
+
+
+
+
 game = True
 win_sound_played = False
 lose_sound_played = False
 
+
+
+
 # Main game loop
 while game:
 
-    # Event handling
+# Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if game_over == 1 or game_over == 2:
+                # Check if the mouse click is inside the restart or quit buttons
+                if restart_button.collidepoint(event.pos):
+                    # Reset the entire game
+                    create_invaders()
+                    player = Player(int(window_width / 2), window_height - 80)
+                    player_group.empty()  # Clear player group
+                    player_group.add(player)
+                    playerBullet_group.empty()  # Clear player bullet group
+                    invaderBullet_group.empty()  # Clear invader bullet group
+                    player.health_remaining = player.health_start
+                    timer = pygame.time.get_ticks()
+                    game_over = 0
+                    initial_state = True  # Set the game state to initial
+                elif quit_button.collidepoint(event.pos):
+                    game = False  # Quit the game
+
 
     # Speed of invaders movement
     clock.tick(60)
@@ -221,12 +259,44 @@ while game:
         if not win_sound_played:
             win_sound.play()  # Play the win sound
             win_sound_played = True
+        # Create restart and quit buttons
+        pygame.draw.rect(screen, (0, 0, 128), restart_button)
+        pygame.draw.rect(screen, (0, 0, 128), quit_button)
+
+        # Create text for buttons
+        restart_text = font.render("Restart Game", True, (255, 255, 255))
+        quit_text = font.render("Quit", True, (255, 255, 255))
+
+        # Center text on buttons
+        restart_text_rect = restart_text.get_rect(center=restart_button.center)
+        quit_text_rect = quit_text.get_rect(center=quit_button.center)
+
+        # Draw text on buttons
+        screen.blit(restart_text, restart_text_rect)
+        screen.blit(quit_text, quit_text_rect)
 
     elif game_over == 2:
         screen.blit(game_over_image, (0, 0))
         if not lose_sound_played:
             lose_sound.play()  # Play the lose sound
             lose_sound_played = True
+
+
+        # Create restart and quit buttons
+        pygame.draw.rect(screen, (0, 0, 128), restart_button)
+        pygame.draw.rect(screen, (0, 0, 128), quit_button)
+
+        # Create text for buttons
+        restart_text = font.render("Restart Game", True, (255, 255, 255))
+        quit_text = font.render("Quit", True, (255, 255, 255))
+
+        # Center text on buttons
+        restart_text_rect = restart_text.get_rect(center=restart_button.center)
+        quit_text_rect = quit_text.get_rect(center=quit_button.center)
+
+        # Draw text on buttons
+        screen.blit(restart_text, restart_text_rect)
+        screen.blit(quit_text, quit_text_rect)
 
 
     # Updates the content state of the screen
